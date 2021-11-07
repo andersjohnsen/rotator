@@ -8,7 +8,9 @@ import ahrs.madgwick as ahrs
 import math3d
 import encoding.json
 
-BROADCAST_ADDRESS ::= net.IpAddress.parse "255.255.255.255"
+BROADCAST_ADDRESS ::= net.SocketAddress
+  net.IpAddress.parse "255.255.255.255"
+  13280
 
 UPDATE_RATE ::= Duration --ms=10
 BROADCAST_RATE ::= Duration --ms=50
@@ -27,16 +29,15 @@ main:
   driver.configure_accel --scale=icm20948.ACCEL_SCALE_16G
   driver.configure_gyro --scale=icm20948.GYRO_SCALE_2000DPS
 
+  madgwick ::= ahrs.Madgwick
+
   network := net.open
   socket := network.udp_open
   socket.broadcast = true
 
-  madgwick ::= ahrs.Madgwick
-
   task::
     every BROADCAST_RATE:
       rotation := madgwick.rotation
-      angles := rotation.euler_angles
       data := json.encode {
         "x": rotation.x,
         "y": rotation.y,
@@ -44,26 +45,16 @@ main:
         "w": rotation.w,
       }
       socket.send
-        udp.Datagram
-          data
-          net.SocketAddress
-            BROADCAST_ADDRESS
-            13280
+        udp.Datagram data BROADCAST_ADDRESS
 
-
-  last := Time.monotonic_us
   every UPDATE_RATE:
     accel := to_vector3 driver.read_accel
     gyro := to_vector3 driver.read_gyro
-
-    start := Time.monotonic_us
 
     madgwick.update_imu
       gyro * RAD_PER_DEG
       accel
       UPDATE_RATE
-
-    last = start
 
 
 every interval/Duration [block]:
