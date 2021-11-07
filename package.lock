@@ -1,0 +1,18 @@
+prefixes:
+  ahrs: ahrs
+  icm20948: icm20948-driver
+  math3d: math3d
+packages:
+  ahrs:
+    url: github.com/andersjohnsen/ahrs
+    version: 1.0.0
+    prefixes:
+      math3d: math3d
+  icm20948-driver:
+    url: github.com/toitware/icm20948-driver
+    version: 1.0.2
+    hash: a63f040cf77a9c06edd462ed0facc0f2e000ee42
+  math3d:
+    url: github.com/andersjohnsen/math3d
+    version: 1.0.1
+    hash: 46282f8ce7a5160255aff075d8d3d992454f77a3

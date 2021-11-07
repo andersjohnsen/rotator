@@ -1,0 +1,10 @@
+dependencies:
+  ahrs:
+    url: github.com/andersjohnsen/ahrs
+    version: ^1.0.0
+  icm20948:
+    url: github.com/toitware/icm20948-driver
+    version: ^1.0.2
+  math3d:
+    url: github.com/andersjohnsen/math3d
+    version: ^1.0.1
