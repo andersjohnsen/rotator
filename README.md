@@ -1,4 +1,4 @@
-# Toit rotator
+# Motion Tracking with ESP32
 
 A little [Toit](https://toit.io) experiment to validate correctness and of an [AHRS algorithm](https://github.com/andersjohnsen/ahrs), as well as responsiveness. The orientation is broadcasted on the network using UDP.
 
